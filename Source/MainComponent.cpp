@@ -13,7 +13,8 @@ MainComponent::MainComponent()
 {
     addAndMakeVisible(checkTheTimeButton);
     checkTheTimeButton.setButtonText("Check the time...");
-    checkTheTimeButton.addListener(this);
+    //checkTheTimeButton.addListener(this);
+    checkTheTimeButton.onClick = [this] { checkTime(); };
     
     addAndMakeVisible(timeLabel);
     timeLabel.setColour(Label::backgroundColourId, Colours::black);
@@ -28,7 +29,7 @@ MainComponent::MainComponent()
 
 MainComponent::~MainComponent()
 {
-    checkTheTimeButton.removeListener(this);
+    //checkTheTimeButton.removeListener(this);
 }
 
 //==============================================================================
@@ -43,10 +44,10 @@ void MainComponent::resized()
     timeLabel.setBounds (10, 60, getWidth() - 20, 40);
 }
 
-void MainComponent::buttonClicked (Button* button)
-{
-    if (button == &checkTheTimeButton)
-    {
+//void MainComponent::buttonClicked (Button* button)
+//{
+    //if (button == &checkTheTimeButton)
+    //{
         //Display time
             //auto currentTime = Time::getCurrentTime();
             //auto includeDate = true;
@@ -62,10 +63,19 @@ void MainComponent::buttonClicked (Button* button)
             //timeOfLastClick = currentTime;
         
         //Juce solution to find ms time between clicks
-            auto currentTime = Time::getCurrentTime();
-            RelativeTime timeDifference (currentTime - latestTime);
-            auto timeDifferenceString = String (timeDifference.inMilliseconds()) + " milliseconds";
-            timeLabel.setText (timeDifferenceString, dontSendNotification);
-            latestTime = currentTime;
-    }
+            //auto currentTime = Time::getCurrentTime();
+            //RelativeTime timeDifference (currentTime - latestTime);
+            //auto timeDifferenceString = String (timeDifference.inMilliseconds()) + " milliseconds";
+            //timeLabel.setText (timeDifferenceString, dontSendNotification);
+            //latestTime = currentTime;
+    //}
+//}
+
+void MainComponent::checkTime()
+{
+    auto currentTime = Time::getCurrentTime();
+    auto includeDate = true;
+    auto includeTime = true;
+    auto currentTimeString = currentTime.toString(includeDate, includeTime);
+    timeLabel.setText(currentTimeString, dontSendNotification);
 }

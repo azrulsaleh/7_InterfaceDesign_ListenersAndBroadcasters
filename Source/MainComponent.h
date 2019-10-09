@@ -15,7 +15,7 @@
     This component lives inside our window, and this is where you should put all
     your controls and content.
 */
-class MainComponent   : public Component, public Button::Listener
+class MainComponent   : public Component//, public Button::Listener
 {
 public:
     //==============================================================================
@@ -26,7 +26,8 @@ public:
     void paint (Graphics&) override;
     void resized() override;
     
-    void buttonClicked (Button*) override;
+    //void buttonClicked (Button*) override;
+    void checkTime();
 
 private:
     TextButton checkTheTimeButton;
