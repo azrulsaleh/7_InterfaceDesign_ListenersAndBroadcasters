@@ -11,27 +11,61 @@
 //==============================================================================
 MainComponent::MainComponent()
 {
-    setSize (600, 400);
+    addAndMakeVisible(checkTheTimeButton);
+    checkTheTimeButton.setButtonText("Check the time...");
+    checkTheTimeButton.addListener(this);
+    
+    addAndMakeVisible(timeLabel);
+    timeLabel.setColour(Label::backgroundColourId, Colours::black);
+    timeLabel.setColour(Label::textColourId, Colours::white);
+    timeLabel.setJustificationType(Justification::centred);
+    
+    //timeOfLastClick = Time::getMillisecondCounter();
+    latestTime = Time::getCurrentTime();
+    
+    setSize (600, 110);
 }
 
 MainComponent::~MainComponent()
 {
+    checkTheTimeButton.removeListener(this);
 }
 
 //==============================================================================
 void MainComponent::paint (Graphics& g)
 {
-    // (Our component is opaque, so we must completely fill the background with a solid colour)
     g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
-
-    g.setFont (Font (16.0f));
-    g.setColour (Colours::white);
-    g.drawText ("Hello World!", getLocalBounds(), Justification::centred, true);
 }
 
 void MainComponent::resized()
 {
-    // This is called when the MainComponent is resized.
-    // If you add any child components, this is where you should
-    // update their positions.
+    checkTheTimeButton.setBounds (10, 10, getWidth() - 20, 40);
+    timeLabel.setBounds (10, 60, getWidth() - 20, 40);
+}
+
+void MainComponent::buttonClicked (Button* button)
+{
+    if (button == &checkTheTimeButton)
+    {
+        //Display time
+            //auto currentTime = Time::getCurrentTime();
+            //auto includeDate = true;
+            //auto includeTime = true;
+            //auto includeSeconds = true;
+            //auto use24HourClock = false;
+            //auto currentTimeString = currentTime.toString(includeDate, includeTime, includeSeconds, use24HourClock);
+            //timeLabel.setText(currentTimeString, dontSendNotification);
+        
+        //My solution to find ms time between clicks
+            //auto currentTime = Time::getMillisecondCounter();
+            //timeLabel.setText("Time since last click: " + (String)(currentTime - timeOfLastClick) + " ms", dontSendNotification);
+            //timeOfLastClick = currentTime;
+        
+        //Juce solution to find ms time between clicks
+            auto currentTime = Time::getCurrentTime();
+            RelativeTime timeDifference (currentTime - latestTime);
+            auto timeDifferenceString = String (timeDifference.inMilliseconds()) + " milliseconds";
+            timeLabel.setText (timeDifferenceString, dontSendNotification);
+            latestTime = currentTime;
+    }
 }
